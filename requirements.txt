@@ -3,7 +3,6 @@ redis
 fastapi
 uvicorn[standard]
 bcrypt
-hashlib
 cryptography
 pydantic
 python-dotenv

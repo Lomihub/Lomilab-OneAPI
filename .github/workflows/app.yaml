@@ -6,7 +6,6 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
   run-api:
@@ -31,11 +30,3 @@ jobs:
         run: |
           uvicorn app:app --reload
   
-  commit-limt:
-    name: Commit Limit
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Commit Limit
-        uses: actions/commit-limit@v1
