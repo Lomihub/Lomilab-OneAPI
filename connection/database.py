@@ -1,7 +1,7 @@
 import mysql.connector
 from dotenv import load_dotenv, dotenv_values
 import os
-
+from auth import User
 
 def connect_database() -> mysql.connector.connection.MySQLConnection:
     try :
