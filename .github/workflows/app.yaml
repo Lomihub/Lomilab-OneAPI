@@ -28,5 +28,6 @@ jobs:
 
       - name: Run API
         run: |
-          uvicorn app:app --reload
+          python app.py
+          
   
