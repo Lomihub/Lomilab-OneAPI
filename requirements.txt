@@ -6,4 +6,3 @@ bcrypt
 cryptography
 pydantic
 python-dotenv
-

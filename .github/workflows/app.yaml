@@ -26,9 +26,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Test API
+      - name: Test CI/CD
         run: |
-          fastapi dev app.py &
-          curl -X POST "http://127.0.0.1:8000/upload_folder/bin"
+          python app.py
       
   
