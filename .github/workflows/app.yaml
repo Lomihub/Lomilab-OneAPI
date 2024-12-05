@@ -8,7 +8,7 @@ on:
       - main
 
 jobs:
-  run-api:
+  test-api:
     name: Run API
     runs-on: ubuntu-latest
 
@@ -28,6 +28,10 @@ jobs:
 
       - name: Run API
         run: |
-          python app.py
-          
+          fastapi dev app.py
+        
+      - name: Test-API with curl
+        run: 
+          curl -X POST "http://127.0.0.1:8000/upload_folder/bin"
+      
   
