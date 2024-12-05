@@ -1,6 +1,6 @@
 openai
 redis
-fastapi
+fastapi[standard]
 uvicorn[standard]
 bcrypt
 cryptography
