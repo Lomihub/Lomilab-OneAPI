@@ -1,14 +1,17 @@
 from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
+from dotenv import load_dotenv
 import openai
 import redis
 import json
 import time
 import os
 from typing import Optional
+import shutil
+import redis
 
-openai.api_key = "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"
-redis_client = redis.StrictRedis(host="localhost", port=6379, db=0, decode_responses=True)
+load_dotenv()
+openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 app = FastAPI()
 
@@ -70,3 +73,29 @@ async def import_folder(folder_path: str):
     except Exception as e:
         return {"status": False, "message": "There was something wrong...", "reason": str(e)}
 
+@app.post("/push_file/{file_path:path}")
+async def push_file(file_path: str):
+    try:
+        destination_path = f"C:\{os.path.basename(file_path)}"
+        with open(file_path, "rb") as src_file:
+            with open(destination_path, "wb") as dest_file:
+                dest_file.write(src_file.read())
+        return {"status": True, "message": "File pushed successfully", "reason": ""}
+    except Exception as e:
+        return {"status": False, "message": "There was something wrong...", "reason": str(e)}
+    
+
+@app.post("/push_folder/{folder_path:path}")
+async def copy_folder(folder_path: str, dest_folder: str = "C:\\"):
+    if not os.path.exists(folder_path):
+        return {"status": False, "message": f"Folder {folder_path} is not exists", "reason": ""}
+    
+    if not os.path.exists(dest_folder):
+        return {"status": False, "message": f"Destination folder {dest_folder} is not exists", "reason": ""}
+
+    try:
+        dest_path = os.path.join(dest_folder, os.path.basename(folder_path))
+        shutil.copytree(folder_path, dest_path)
+        return {"status": True, "message": f"Folder {folder_path} copied to {dest_path}", "reason": ""}
+    except Exception as e:
+        return {"status": False, "message": "There was something wrong...", "reason": str(e)}
