@@ -1,4 +1,4 @@
-import hashlib
+import hashlib, os, base64
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 
@@ -16,6 +16,7 @@ def md5_encrypt(data_raw: str) -> str:
 
 def base64_encrypt(data_raw: str) -> str:
     # Encrypt data using Base64
+    b= base64
     return base64.b64encode(data_raw.encode()).decode()
 
 def base64_decrypt(data_encrypted: str) -> str:
