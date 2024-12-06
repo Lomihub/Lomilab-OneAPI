@@ -1,7 +1,5 @@
-from pydantic import BaseModel
-from typing import List, Literal
-
-TOKEN_TYPE = Literal["admin", "user"]
+from datetime import datetime
+from typing import List, Literal, Optional
     
 class Token():
     Id: int
@@ -9,13 +7,13 @@ class Token():
     NameToken: str
     Status: bool
     Key: str
-    TokenType: TOKEN_TYPE
-    CreatedAt: str
-    AccessedTime: str
-    ExpiredTime: str
-    RemainQuota: int
+    TokenType: Literal["admin", "user"] = "user"
+    CreatedAt: Optional[datetime] = None
+    AccessedTime: Optional[datetime] = None
+    ExpiredTime: Optional[datetime] = None
+    RemainQuota: Optional[datetime] = None
     LimitedQuota: int
-    QuotaResetTime: str
+    QuotaResetTime: Optional[datetime] = None
     Models: List[str]
     Subnet: str
     
@@ -26,15 +24,15 @@ class Token():
         NameToken: str,
         Status: bool,
         Key: str,
-        TokenType: TOKEN_TYPE,
-        CreatedAt: str,
-        AccessedTime: str,
-        ExpiredTime: str,
-        RemainQuota: int,
-        LimitedQuota: int,
-        QuotaResetTime: str,
-        Models: List[str],
-        Subnet: str
+        TokenType: Literal["admin", "user"] = "user",
+        CreatedAt: Optional[datetime] = None,
+        AccessedTime: Optional[datetime] = None,
+        ExpiredTime: Optional[datetime] = None,
+        RemainQuota: Optional[datetime] = None,
+        LimitedQuota: int = 10,
+        QuotaResetTime: Optional[datetime] = None,
+        Models: List[str] = [],
+        Subnet: str = ""
     ) -> None:
         self.Id = Id
         self.UserID = UserID
@@ -50,3 +48,21 @@ class Token():
         self.QuotaResetTime = QuotaResetTime
         self.Models = Models
         self.Subnet = Subnet
+        
+    def __str__(self) -> str:
+        return f"Token(
+            Id={self.Id}, 
+            UserID={self.UserID}, 
+            NameToken={self.NameToken}, 
+            Status={self.Status}, 
+            Key={self.Key}, 
+            TokenType={self.TokenType}, 
+            CreatedAt={self.CreatedAt}, 
+            AccessedTime={self.AccessedTime}, 
+            ExpiredTime={self.ExpiredTime}, 
+            RemainQuota={self.RemainQuota}, 
+            LimitedQuota={self.LimitedQuota}, 
+            QuotaResetTime={self.QuotaResetTime}, 
+            Models={self.Models}, 
+            Subnet={self.Subnet}
+        )"
