@@ -34,16 +34,7 @@ class Token():
 
 
     def __str__(self) -> str:
-        return f"Token(
-            Id={self.Id}, 
-            UserId={self.UserId}, 
-            NameToken={self.NameToken}, 
-            Key={self.Key}, 
-            Status={self.Status}, 
-            CreatedAt={self.CreatedAt}, 
-            AccessedTime={self.AccessedTime}, 
-            ExpiredTime={self.ExpiredTime}
-            )"
+        return f"Token(Id={self.Id}, UserId={self.UserId}, NameToken={self.NameToken}, Key={self.Key}, Status={self.Status}, CreatedAt={self.CreatedAt}, AccessedTime={self.AccessedTime}, ExpiredTime={self.ExpiredTime})"
      
 
 def get_all_tokens() -> List[Token]:

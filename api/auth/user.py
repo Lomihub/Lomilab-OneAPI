@@ -1,7 +1,8 @@
 from datetime import datetime
 from typing import List, Optional, Literal, Union
+from api.connection.database import Database
 
-class User():
+class User:
     """
     
     """
@@ -59,24 +60,7 @@ class User():
         self.ProfilePicture = ProfilePicture
         
     def __str__(self) -> str:
-        return f"User(
-                Id={self.Id},
-                BindID={self.BindID},
-                Username={self.Username},
-                Password={self.Password},
-                DisplayName={self.DisplayName},
-                AccessToken={self.AccessToken},
-                Status={self.Status},
-                Blacklist={self.Blacklist},
-                Role={self.Role},
-                GoogleId={self.GoogleId},
-                GithubId={self.GithubId},
-                FacebookId={self.FacebookId},
-                VerificationCode={self.VerificationCode},
-                CreatedAt={self.CreatedAt},
-                UpdatedAt={self.UpdatedAt},
-                ProfilePicture={self.ProfilePicture}
-            )"
+        return f"User(Id={self.Id}, BindID={self.BindID}, Username={self.Username}, Password={self.Password}, DisplayName={self.DisplayName}, AccessToken={self.AccessToken}, Status={self.Status}, Blacklist={self.Blacklist}, Role={self.Role}, GoogleId={self.GoogleId}, GithubId={self.GithubId}, FacebookId={self.FacebookId}, VerificationCode={self.VerificationCode}, CreatedAt={self.CreatedAt}, UpdatedAt={self.UpdatedAt}, ProfilePicture={self.ProfilePicture})"
   
 
 def get_all_users() -> List[User]:
