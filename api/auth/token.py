@@ -1,68 +1,81 @@
 from datetime import datetime
-from typing import List, Literal, Optional
-    
+from typing import List, Optional
+
+
 class Token():
     Id: int
-    UserID: int
+    UserId: int
     NameToken: str
-    Status: bool
     Key: str
-    TokenType: Literal["admin", "user"] = "user"
+    Status: bool
     CreatedAt: Optional[datetime] = None
     AccessedTime: Optional[datetime] = None
     ExpiredTime: Optional[datetime] = None
-    RemainQuota: Optional[datetime] = None
-    LimitedQuota: int
-    QuotaResetTime: Optional[datetime] = None
-    Models: List[str]
-    Subnet: str
     
     def __init__(
         self,
         Id: int,
-        UserID: int,
+        UserId: int,
         NameToken: str,
-        Status: bool,
         Key: str,
-        TokenType: Literal["admin", "user"] = "user",
+        Status: bool = True,
         CreatedAt: Optional[datetime] = None,
         AccessedTime: Optional[datetime] = None,
         ExpiredTime: Optional[datetime] = None,
-        RemainQuota: Optional[datetime] = None,
-        LimitedQuota: int = 10,
-        QuotaResetTime: Optional[datetime] = None,
-        Models: List[str] = [],
-        Subnet: str = ""
     ) -> None:
         self.Id = Id
-        self.UserID = UserID
+        self.UserId = UserId
         self.NameToken = NameToken
-        self.Status = Status
         self.Key = Key
-        self.TokenType = TokenType
+        self.Status = Status
         self.CreatedAt = CreatedAt
         self.AccessedTime = AccessedTime
         self.ExpiredTime = ExpiredTime
-        self.RemainQuota = RemainQuota
-        self.LimitedQuota = LimitedQuota
-        self.QuotaResetTime = QuotaResetTime
-        self.Models = Models
-        self.Subnet = Subnet
-        
+
+
     def __str__(self) -> str:
         return f"Token(
             Id={self.Id}, 
-            UserID={self.UserID}, 
+            UserId={self.UserId}, 
             NameToken={self.NameToken}, 
-            Status={self.Status}, 
             Key={self.Key}, 
-            TokenType={self.TokenType}, 
+            Status={self.Status}, 
             CreatedAt={self.CreatedAt}, 
             AccessedTime={self.AccessedTime}, 
-            ExpiredTime={self.ExpiredTime}, 
-            RemainQuota={self.RemainQuota}, 
-            LimitedQuota={self.LimitedQuota}, 
-            QuotaResetTime={self.QuotaResetTime}, 
-            Models={self.Models}, 
-            Subnet={self.Subnet}
-        )"
+            ExpiredTime={self.ExpiredTime}
+            )"
+     
+
+def get_all_tokens() -> List[Token]:
+    pass
+
+def get_user_token(user_id: int) -> Token:
+    pass
+
+def get_token_by_key(key: str) -> Token:
+    pass
+
+def get_token_by_ids(name_token: str) -> Token:
+    pass
+
+def validate_user_token(user_id: int, key: str) -> bool:
+    pass
+
+# CRUD
+def create_token(token: Token) -> Token:
+    pass
+
+def update_token(token: Token) -> Token:
+    pass
+
+def delete_token(token_id: int) -> None:
+    pass
+
+def count_user_tokens(user_id: int) -> int:
+    pass
+
+def invalidate_all_tokens(user_id: int) -> None:
+    pass
+
+def update_token_accessed_time(token_id: int) -> None:
+    pass

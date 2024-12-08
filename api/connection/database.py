@@ -1,7 +1,19 @@
 import mysql.connector
 from dotenv import load_dotenv, dotenv_values
 import os
-from auth import User
+
+class Database():
+    def __init__(self):
+        self.database = connect_database()
+    
+    def __str__(self) -> str:
+        return self.database
+        
+    def __del__(self):
+        close_database(self.database)
+        
+    def get_database(self) -> mysql.connector.connection.MySQLConnection:
+        return self.database
 
 def connect_database() -> mysql.connector.connection.MySQLConnection:
     try :
@@ -23,24 +35,69 @@ def close_database(database: mysql.connector.connection.MySQLConnection):
 def create_user_table(database: mysql.connector.connection.MySQLConnection):
     cursor = database.cursor()
     cursor.execute(
-        "CREATE TABLE IF NOT EXISTS User (\n" +
-        "Id INT PRIMARY KEY AUTO_INCREMENT,\n" +
-        "Username VARCHAR(255) NOT NULL UNIQUE,\n" +
-        "Password VARCHAR(64) NOT NULL,\n" +
-        "DisplayName VARCHAR(255),\n" +
-        "Token VARCHAR(255)\n" +
-        ")"
+        """
+        CREATE TABLE IF NOT EXISTS User
+        (
+            Id             INT PRIMARY KEY AUTO_INCREMENT,
+            BindId         VARCHAR(32)  NOT NULL,
+            Username       VARCHAR(255) NOT NULL,
+            Password       VARCHAR(255) NOT NULL,
+            DisplayName    VARCHAR(255) NOT NULL,
+            Role           ENUM ('admin', 'user') DEFAULT 'user',
+            Status         BOOLEAN                DEFAULT TRUE,
+            Email          VARCHAR(255),
+            GoogleId       VARCHAR(255),
+            FacebookId     VARCHAR(255),
+            GithubId       VARCHAR(255),
+            CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+            UpdatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+            ProfilePicture VARCHAR(255),
+            Blacklist      BOOLEAN                DEFAULT FALSE
+        )
+        """
     )
     database.commit()
 
-def import_user_to_table(user: User) -> None:
-    database = connect_database()
+def create_token_table(database: mysql.connector.connection.MySQLConnection):
     cursor = database.cursor()
-
-    create_user_table(database)
     cursor.execute(
-        "INSERT INTO User (Id, Username, Password, DisplayName, Token) VALUES (%s, %s, %s, %s, %s)",
-        (user.Id, user.Username, user.Password, user.DisplayName, user.Token)
+        """
+        CREATE TABLE IF NOT EXISTS Token (
+            Id INT PRIMARY KEY AUTO_INCREMENT,
+            UserId INT NOT NULL,
+            NameToken VARCHAR(255) NOT NULL,
+            Status BOOLEAN DEFAULT TRUE,
+            TokenKey VARCHAR(32) NOT NULL,
+            TokenType ENUM('admin', 'user') DEFAULT 'user',
+            CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+            AccessedTime DATETIME,
+            ExpiredTime DATETIME,
+            RemainQuota INT,
+            LimitedQuota INT DEFAULT 10,
+            QuotaResetTime DATETIME,
+            Models TEXT,
+            Subnet VARCHAR(255),
+            FOREIGN KEY (UserId) REFERENCES User(Id)
+        )
+        """
     )
     database.commit()
-    close_database(database)
+    
+def create_api_key_table(database: mysql.connector.connection.MySQLConnection):
+    cursor = database.cursor()
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS Token (
+            Id INT PRIMARY KEY AUTO_INCREMENT,
+            UserId INT NOT NULL,
+            NameToken VARCHAR(255) NOT NULL,
+            Status BOOLEAN DEFAULT TRUE,
+            TokenKey VARCHAR(32) NOT NULL,
+            TokenType ENUM('admin', 'user') DEFAULT 'user',
+            CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+            AccessedTime DATETIME,
+            ExpiredTime DATETIME,
+        )
+        """
+    )
+    database.commit()

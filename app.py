@@ -99,3 +99,12 @@ async def copy_folder(folder_path: str, dest_folder: str = "C:\\"):
         return {"status": True, "message": f"Folder {folder_path} copied to {dest_path}", "reason": ""}
     except Exception as e:
         return {"status": False, "message": "There was something wrong...", "reason": str(e)}
+    
+# Login 
+@app.get("/login")
+async def get_page_login():
+    return {"status": True, "message": "Login page"}
+
+@app.post("/login")
+async def login(username: str, password: str):
+    return {"status": True, "message": "Login successfully"}

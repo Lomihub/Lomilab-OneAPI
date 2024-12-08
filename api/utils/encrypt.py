@@ -35,5 +35,3 @@ def aes256_encrypt(plain_text: str, key: str) -> str:
     ciphertext = encryptor.update(plain_text_padded.encode('utf-8')) + encryptor.finalize()
 
     return base64.b64encode(iv + ciphertext).decode('utf-8')
-    
-    
