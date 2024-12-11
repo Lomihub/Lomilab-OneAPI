@@ -28,6 +28,6 @@ jobs:
 
       - name: Test CI/CD
         run: |
-          python app.py
+          python api/app.py
       
   
