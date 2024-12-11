@@ -1,41 +1,22 @@
 from datetime import datetime
 from typing import List, Optional
+from .base import Base
+from sqlalchemy import Column, DateTime, Integer, String, Boolean, BigInteger, Text
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql.schema import ForeignKey
 
-
-class Token():
-    Id: int
-    UserId: int
-    NameToken: str
-    Key: str
-    Status: bool
-    CreatedAt: Optional[datetime] = None
-    AccessedTime: Optional[datetime] = None
-    ExpiredTime: Optional[datetime] = None
+class Token(Base):
+    __tablename__ = 'Token'
     
-    def __init__(
-        self,
-        Id: int,
-        UserId: int,
-        NameToken: str,
-        Key: str,
-        Status: bool = True,
-        CreatedAt: Optional[datetime] = None,
-        AccessedTime: Optional[datetime] = None,
-        ExpiredTime: Optional[datetime] = None,
-    ) -> None:
-        self.Id = Id
-        self.UserId = UserId
-        self.NameToken = NameToken
-        self.Key = Key
-        self.Status = Status
-        self.CreatedAt = CreatedAt
-        self.AccessedTime = AccessedTime
-        self.ExpiredTime = ExpiredTime
-
-
-    def __str__(self) -> str:
-        return f"Token(Id={self.Id}, UserId={self.UserId}, NameToken={self.NameToken}, Key={self.Key}, Status={self.Status}, CreatedAt={self.CreatedAt}, AccessedTime={self.AccessedTime}, ExpiredTime={self.ExpiredTime})"
-     
+    Id = Column(Integer, primary_key=True, autoincrement=True)
+    UserId = Column(Integer, ForeignKey('User.Id'), nullable=False)
+    Nam1eToken = Column(String(255), nullable=False)
+    Key = Column(String(48), nullable=False)
+    Status = Column(Boolean, default=True)
+    CreatedAt = Column(DateTime, default=datetime.now())
+    AccessedTime = Column(DateTime, default=datetime.now())
+    ExpiredTime = Column(DateTime, nullable=True)
+    Models = Column(Text, nullable=True)
 
 def get_all_tokens() -> List[Token]:
     pass
